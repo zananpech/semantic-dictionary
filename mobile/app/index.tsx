@@ -15,7 +15,7 @@ import SearchBar from '@/components/SearchBar';
 import WordCard from '@/components/WordCard';
 import EmptyState from '@/components/EmptyState';
 import { WordEntry, Bookmark } from '@/lib/types';
-import { searchMock, getRandomWords } from '@/lib/mockData';
+import { search, getRandomWords } from '@/lib/loadData';
 import { Colors } from '@/lib/colors';
 import { rfs, rs, sw, isSmall, isTablet, maxContentWidth } from '@/lib/responsive';
 
@@ -71,7 +71,7 @@ export default function HomeScreen() {
     if (!text.trim()) { setResults([]); setHasSearched(false); return; }
     setLoading(true);
     searchTimeout.current = setTimeout(() => {
-      setResults(searchMock(text.trim(), mode));
+      setResults(search(text.trim(), mode));
       setHasSearched(true);
       setLoading(false);
     }, 300);
@@ -81,18 +81,18 @@ export default function HomeScreen() {
     setMode(next);
     if (query.trim()) {
       setLoading(true);
-      setTimeout(() => { setResults(searchMock(query.trim(), next)); setLoading(false); }, 150);
+      setTimeout(() => { setResults(search(query.trim(), next)); setLoading(false); }, 150);
     }
   };
 
   const handleSynonymPress = (word: string) => {
     setQuery(word); setMode('keyword');
-    setResults(searchMock(word, 'keyword')); setHasSearched(true);
+    setResults(search(word, 'keyword')); setHasSearched(true);
   };
 
   const handleChipPress = (q: string) => {
     setQuery(q); setMode('semantic');
-    setResults(searchMock(q, 'semantic')); setHasSearched(true);
+    setResults(search(q, 'semantic')); setHasSearched(true);
   };
 
   const showHome = !hasSearched && !query;
@@ -173,9 +173,9 @@ export default function HomeScreen() {
             </Pressable>
           </View>
           <View style={s.discoveryList}>
-            {discovery.map(entry => (
+            {discovery.map((entry) => (
               <WordCard
-                key={`${entry.word}-${entry.pos}`}
+                key={entry.id}
                 entry={entry}
                 compact
                 bookmarked={isBookmarked(entry)}
@@ -193,7 +193,7 @@ export default function HomeScreen() {
       ) : (
         <FlatList
           data={results}
-          keyExtractor={item => `${item.word}-${item.pos}`}
+          keyExtractor={item => String(item.id)}
           contentContainerStyle={s.resultsList}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"

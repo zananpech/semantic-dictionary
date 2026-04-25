@@ -106,7 +106,7 @@ The app currently runs on **mock data** (`lib/mockData.ts`). To connect it to th
    const BASE_URL = 'http://192.168.1.x:8000';
    ```
 
-4. Replace the `searchMock` / `getRandomWords` calls in `app/index.tsx` with the API helpers.
+4. Replace the `search` / `getRandomWords` calls in `app/index.tsx` with the API helpers.
 
 > **Note:** Use your LAN IP — not `localhost`. On a physical device, `localhost` points to the device itself, not your computer.
 

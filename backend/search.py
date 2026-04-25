@@ -2,6 +2,7 @@
 Search Engine: BM25 semantic search + keyword matching over the dictionary index.
 """
 
+import datetime
 import json
 import os
 import re
@@ -76,6 +77,7 @@ class SemanticSearchEngine:
             return []
 
         scores = self.bm25.get_scores(tokens)
+        print(f'{datetime.datetime.now()} bm25 scores: {scores}')
 
         # Get top indices sorted by score (descending)
         ranked_indices = sorted(

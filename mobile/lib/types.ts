@@ -5,6 +5,7 @@ export interface Sense {
 }
 
 export interface WordEntry {
+  id: number;
   word: string;
   pos: string;
   senses: Sense[];
