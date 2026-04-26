@@ -1,2 +1,5 @@
 ./data/*
 ./env.*
+# The web/public JSON is copied from data/ by the GitHub Actions workflow at build time.
+# No need to track it in git (avoids a 20 MB duplicate).
+web/public/clean_dictionary.json

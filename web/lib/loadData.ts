@@ -7,7 +7,8 @@ let _dict: WordEntry[] | null = null;
 
 async function getDict(): Promise<WordEntry[]> {
   if (_dict) return _dict;
-  const res = await fetch('/clean_dictionary.json');
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+  const res = await fetch(`${basePath}/clean_dictionary.json`);
   const raw: { Word: string; POS: string; Definition: string }[] = await res.json();
   _dict = raw
     .map((item, i) => ({
